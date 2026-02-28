@@ -22,8 +22,12 @@ std::condition_variable queue_cv;
 std::atomic<bool> running(true);
 
 image_transport::Publisher camera_pub;
+ros::Publisher compressed_image_pub;
 
 int fps = 30;
+int jpeg_quality = 80;
+std::string compressed_format = "jpeg";
+
 
 void signalHandler(int signum){
     std::cout << "\nInterrupt signal (" << signum <<") received. \n)";
@@ -93,7 +97,7 @@ void cameraReader(){
 }
 
 /*
-Image publisher
+    Image publisher
 */
 void imagePublisher(){
 
@@ -106,6 +110,17 @@ void imagePublisher(){
 
     // ros::Publisher camera_pub = n.advertise<std_msgs::String>("chatter", 1000);
     camera_pub = tp.advertise("camera/image", 1);
+
+    // Publish compressed image to the web UI.
+    compressed_image_pub = n.advertise<sensor_msgs::CompressedImage>("cam1_image_preview", 1);
+
+    // Setup compression parameters
+    std::vector<int> compression_params;
+
+    if(compressed_format == "jpeg" || compressed_format == 'jpg'){
+        compression_params.push_back(cv::IMWRITE_JPEG_QUALITY);
+        compression_params.push_back(jpeg_quality);
+    }
 
     ros::Rate loop_rate(10);
 
@@ -130,14 +145,22 @@ void imagePublisher(){
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
 
             camera_pub.publish(msg);
+
+            // Publishing compressed image
+            sensor_msgs::CompressedImage compressed_img_msg;
+            compressed_img_msg.header.stamp = ros::Time::now();
+            compressed_img_msg.header.frame_id = "camera_frame";
+            compressed_img_msg.format = compressed_format;
+
+            std::vector<uchar> buffer;
+            cv::imencode("." + compressed_format, frame, buffer, compression_params);
+            compressed_img_msg.data = buffer;
+
+            compressed_image_pub.publish(compressed_img_msg);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-
-        // ros::spinOnce();
-
-        // loop_rate.sleep();
     }
 
 }
@@ -153,6 +176,7 @@ int main(int argc, char **argv){
     // Start camera reading thread
     std::thread camera_reader_thread(cameraReader);
 
+    // Start image publishing thread
     std::thread image_publishing_thread(imagePublisher);
 
     ros::AsyncSpinner spinner(2);
@@ -161,11 +185,19 @@ int main(int argc, char **argv){
     // Wait for shutdown signal
     while (running && ros::ok())
     {
-  
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     // Stop the threads
+    if(camera_reader_thread.joinable()){
+        camera_reader_thread.join();
+    }
+
+    if(image_publishing_thread.joinable()){
+        image_publishing_thread.join();
+    }
+
+    ROS_INFO("Camera publisher shutting down.")
 
     spinner.stop();
     ros::shutdown();
