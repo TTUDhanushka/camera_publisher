@@ -150,7 +150,7 @@ int main(int argc, char **argv){
     signal(SIGINT, signalHandler); // Ctrl + C
 
     // Start camera reading thread
-    std:thread camera_reader_thread(cameraReader);
+    std::thread camera_reader_thread(cameraReader);
 
     std::thread image_publishing_thread(imagePublisher);
 
