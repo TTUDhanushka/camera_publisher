@@ -117,7 +117,7 @@ void imagePublisher(){
     // Setup compression parameters
     std::vector<int> compression_params;
 
-    if(compressed_format == "jpeg" || compressed_format == 'jpg'){
+    if(compressed_format == "jpeg" || compressed_format == "jpg"){
         compression_params.push_back(cv::IMWRITE_JPEG_QUALITY);
         compression_params.push_back(jpeg_quality);
     }
@@ -197,7 +197,7 @@ int main(int argc, char **argv){
         image_publishing_thread.join();
     }
 
-    ROS_INFO("Camera publisher shutting down.")
+    ROS_INFO("Camera publisher shutting down.");
 
     spinner.stop();
     ros::shutdown();
