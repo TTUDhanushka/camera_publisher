@@ -7,8 +7,20 @@
 
 #include <sstream>
 
+std::queue<cv::Mat> frame_queue;
+std::mutex queue_mutex;
+
+/*
+    Read camera image and store in a queue.
+*/
+// void readThread(){
+
+// }
 
 int main(int argc, char **argv){
+
+    const int IMAGE_WIDTH = 1024;
+    const int IMAGE_HEIGHT = 512;
 
     ros::init(argc, argv, "publisher");
 
@@ -29,32 +41,30 @@ int main(int argc, char **argv){
 
     ros::Rate loop_rate(10);
 
-    int count = 0;
-
     while (ros::ok())
     {
-        // std_msgs::String msg;
-        if(!cap.read(frame)){
-            ROS_INFO("Failed to read a frame.");
+        try{
+            if(!cap.read(frame)){
+                ROS_INFO("Failed to read a frame.");
+            }
+            else{
+                // Check frame read errors
+
+                sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
+
+                camera_pub.publish(msg);
+                ros::spinOnce();
+
+                loop_rate.sleep();
+
+                cv::waitKey(30);            
+            }
+        }
+        catch(cv::Exception& e){
+            ROS_ERROR("OpenCV exception: %s", e.what());
         }
 
-        cv::waitKey(30);
 
-        sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
-        // std::stringstream ss;
-
-        // ss << "Test" << count;
-
-        // msg.data = ss.str();
-
-        // ROS_INFO("%s", msg.data.c_str());
-
-        camera_pub.publish(msg);
-        ros::spinOnce();
-
-        loop_rate.sleep();
-
-        ++count;
 
     }
 
