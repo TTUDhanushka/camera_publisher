@@ -1,9 +1,15 @@
-Dependancies:
-cv_bridge
-opencv
+### Dependancies:
+- cv_bridge
+- opencv
 
-Output:
-sensor_msgs/Image
+### Output data type:
+- sensor_msgs/Image
+- sensor_msgs/CompressedImage
 
-Topic: 
-camera/Image
+### Topics: 
+- camera/Image
+- cam1_image_preview
+
+## Run:
+
+`rosrun camera_publisher camera_publisher_node`
