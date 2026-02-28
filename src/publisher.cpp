@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 
     cv::VideoCapture cap("rtsp://admin:Admin123@192.168.1.211:554/path");
 
-    if(!cap->isOpened()){
+    if(!cap.isOpened()){
         ROS_INFO("Camera didn't open.");
     }
 
@@ -34,13 +34,13 @@ int main(int argc, char **argv){
     while (ros::ok())
     {
         // std_msgs::String msg;
-        if(!cap ->read(frame)){
+        if(!cap.read(frame)){
             ROS_INFO("Failed to read a frame.");
         }
 
         cv::waitKey(30);
 
-        sensor_msgs::ImagePtr msg = cv_bridge::CvBridge(std_msgs::Header(), "bgr8", frame).toImageMsg();
+        sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
         // std::stringstream ss;
 
         // ss << "Test" << count;
