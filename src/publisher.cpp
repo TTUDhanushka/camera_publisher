@@ -73,7 +73,7 @@ void cameraReader(){
                 }
 
                 // Notify the publisher thread.
-                queve_cv.notify_one();
+                queue_cv.notify_one();
                 cv::waitKey(30);  
             }
         }
