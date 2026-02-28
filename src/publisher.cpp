@@ -5,6 +5,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+#include <condition_variable>
 #include <thread>
 #include <atomic>
 #include <csignal>
@@ -80,7 +81,7 @@ void cameraReader(){
             ROS_ERROR("OpenCV exception: %s", e.what());
         }
 
-        auto elapsed = std::chrono::stready_clock::now() - start_time;
+        auto elapsed = std::chrono::steady_clock::now() - start_time;
 
         if(elapsed < frame_interval){
             std::this_thread::sleep_for(frame_interval - elapsed);
