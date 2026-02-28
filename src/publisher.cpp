@@ -2,7 +2,7 @@
 #include "std_msgs/String.h"
 #include "image_transport/image_transport.h"
 #include "cv_bridge/cv_bridge.h"
-#include "opencv2/opencv.hpp"
+#include "opencv2/opencv.h"
 
 #include <sstream>
 
@@ -18,7 +18,7 @@ int main(int argc, char **argv){
     // ros::Publisher camera_pub = n.advertise<std_msgs::String>("chatter", 1000);
     image_transport::Publisher camera_pub = tp.advertise("camera/image", 1);
 
-    cv::VideoCapture cap("rtsp://admin:Admin123@192.168.1.211:554/path")
+    cv::VideoCapture cap("rtsp://admin:Admin123@192.168.1.211:554/path");
 
     if(!cap->isOpened()){
         ROS_INFO("Camera didn't open.");
@@ -38,7 +38,7 @@ int main(int argc, char **argv){
         }
 
         cv::waitKey(30);
-        
+
         sensor_msgs::ImagePtr msg = cv_bridge::CvBridge(std_msgs::Header(), "bgr8", frame).toImageMsg();
         // std::stringstream ss;
 
