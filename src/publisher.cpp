@@ -168,9 +168,6 @@ void imagePublisher(){
             // Resize and crop the image
             cv::Mat resizedImg;
 
-            ROS_INFO("Original image size height: %d width: %d Image width %d", frame_height,  frame_width, IMAGE_WIDTH);
-            ROS_INFO("Resized image size height: %d width: %d scale %f", int(resizedHeight),  int(resizedWidth), scaleFactor);
-
             cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight)));
 
             cv::Rect roi(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -187,7 +184,7 @@ void imagePublisher(){
             compressed_img_msg.format = compressed_format;
 
             std::vector<uchar> buffer;
-            cv::imencode("." + compressed_format, frame, buffer, compression_params);
+            cv::imencode("." + compressed_format, croppedFrame, buffer, compression_params);
             compressed_img_msg.data = buffer;
 
             compressed_image_pub.publish(compressed_img_msg);
