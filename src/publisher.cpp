@@ -167,6 +167,8 @@ void imagePublisher(){
 
             // Resize and crop the image
             cv::Mat resizedImg;
+
+            ROS_INFO("Original image size height: %d width: %d Image width %d", frame_height,  frame_width, IMAGE_WIDTH);
             ROS_INFO("Resized image size height: %d width: %d scale %f", resizedHeight,  resizedWidth, scaleFactor);
 
             cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight)));
