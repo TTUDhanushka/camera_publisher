@@ -206,15 +206,15 @@ int main(int argc, char **argv){
     ros::NodeHandle nodeHandleParams("~");          // Private node handle
     
     if(nodeHandleParams.getParam("url", cameraUrl)){
-        ROS_INFO("Camera url %s", cameraUrl);
+        ROS_INFO("Camera url %s", cameraUrl.c_str());
     }
 
     if(nodeHandleParams.getParam("previewImg", webUiPreviewImgTopic)){
-        ROS_INFO("Preview Image %s", webUiPreviewImgTopic);
+        ROS_INFO("Preview Image %s", webUiPreviewImgTopic.c_str());
     }
 
     if(nodeHandleParams.getParam("rawImg", rawImageTopic)){
-        ROS_INFO("Raw Image %s", rawImageTopic);
+        ROS_INFO("Raw Image %s", rawImageTopic.c_str());
     }
 
     // Register signal handlers
