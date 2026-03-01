@@ -114,13 +114,7 @@ void imagePublisher(){
 
     double scaleFactor = 0;
 
-    if ((frame_height > 0) && (frame_width > 0)){
-        scaleFactor = frame_width / IMAGE_WIDTH;
-    }
-    else{
-        // Wait until camera captures a valid frame and update frame parameters.
-        return;
-    }
+
 
     ros::NodeHandle n;
 
@@ -143,6 +137,14 @@ void imagePublisher(){
     ros::Rate loop_rate(10);
 
     while(running){
+
+        if ((frame_height > 0) && (frame_width > 0)){
+            scaleFactor = frame_width / IMAGE_WIDTH;
+        }
+        else{
+            // Wait until camera captures a valid frame and update frame parameters.
+            continue;
+        }
 
         cv::Mat frame;
 
@@ -167,7 +169,7 @@ void imagePublisher(){
             if (scaleFactor == 0){
                 return;
             }
-            
+
             cv::resize(frame, resizedImg, cv::Size(int(frame_width / scaleFactor), int(frame_height / scaleFactor)));
 
             cv::Rect roi(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT);
