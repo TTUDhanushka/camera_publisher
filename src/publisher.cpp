@@ -58,7 +58,7 @@ void cameraReader(){
         frame_height = cap.get(cv::CAP_PROP_FRAME_HEIGHT);
         frame_width = cap.get(cv::CAP_PROP_FRAME_WIDTH);
 
-        // ROS_INFO("Frame height: %d px and width: %d px", frame_height, frame_width);
+        ROS_INFO("Frame height: %d px and width: %d px", frame_height, frame_width);
     }
 
     cv::Mat frame;
@@ -155,7 +155,7 @@ void imagePublisher(){
         if(!frame.empty()){
 
             // Resize and crop the image
-            cv::Mat resizedImg;
+            // cv::Mat resizedImg;
             // cv::resize(frame, resizedImg, cv::Size(IMAGE_WIDTH, IMAGE_HEIGHT));
             // cv::Mat croppedFrame = resizedImg(cv::Rect(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT));
 
