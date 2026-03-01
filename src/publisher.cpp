@@ -138,7 +138,7 @@ void imagePublisher(){
     while(running){
 
         if ((frame_height > 0) && (frame_width > 0)){
-            scaleFactor =  IMAGE_WIDTH / frame_width;
+            scaleFactor =  (double)IMAGE_WIDTH / frame_width;
 
             resizedHeight = (frame_height * scaleFactor);
             resizedWidth = (frame_width * scaleFactor);
