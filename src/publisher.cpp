@@ -201,6 +201,8 @@ int main(int argc, char **argv){
 
     ros::init(argc, argv, "publisher", ros::init_options::NoSigintHandler);
 
+    ROS_INFO("Command line arguments 1: %s, 2: %s", argv[0], argv[1]);
+
     // Register signal handlers
     signal(SIGINT, signalHandler); // Ctrl + C
 
