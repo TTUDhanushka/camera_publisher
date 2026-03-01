@@ -48,7 +48,8 @@ void signalHandler(int signum){
 */
 void cameraReader(){  
 
-    cv::VideoCapture cap("rtsp://admin:Admin123@192.168.1.211:554/path");
+    // cv::VideoCapture cap("rtsp://admin:Admin123@192.168.1.211:554/path");
+    cv::VideoCapture cap(cameraUrl);
 
     if(!cap.isOpened()){
         ROS_INFO("Camera didn't open.");
@@ -122,10 +123,10 @@ void imagePublisher(){
     image_transport::ImageTransport tp(n);
 
     // ros::Publisher camera_pub = n.advertise<std_msgs::String>("chatter", 1000);
-    camera_pub = tp.advertise("camera/image", 1);
+    camera_pub = tp.advertise(rawImageTopic, 1);
 
     // Publish compressed image to the web UI.
-    compressed_image_pub = n.advertise<sensor_msgs::CompressedImage>("cam1_image_preview", 1);
+    compressed_image_pub = n.advertise<sensor_msgs::CompressedImage>(webUiPreviewImgTopic, 1);
 
     // Setup compression parameters
     std::vector<int> compression_params;
