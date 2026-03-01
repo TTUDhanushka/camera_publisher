@@ -208,7 +208,7 @@ int main(int argc, char **argv){
 
     
     if(nodeHandleParams.getParam("url", cameraUrl)){
-        ROS_INFO("Camera url %s and Node name ", cameraUrl.c_str(), ros::this_node::getName().c_str());
+        ROS_INFO("Camera url %s and Node name %s", cameraUrl.c_str(), ros::this_node::getName().c_str());
     }
 
     if(nodeHandleParams.getParam("previewImg", webUiPreviewImgTopic)){
