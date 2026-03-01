@@ -170,7 +170,7 @@ void imagePublisher(){
             compressed_img_msg.format = compressed_format;
 
             std::vector<uchar> buffer;
-            cv::imencode("." + compressed_format, croppedFrame, buffer, compression_params);
+            cv::imencode("." + compressed_format, frame, buffer, compression_params);
             compressed_img_msg.data = buffer;
 
             compressed_image_pub.publish(compressed_img_msg);
