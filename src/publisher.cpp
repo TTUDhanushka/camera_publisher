@@ -169,7 +169,7 @@ void imagePublisher(){
             cv::Mat resizedImg;
 
 // 
-            cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight))cv::INTER_LINEAR);
+            cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight)),cv::INTER_LINEAR);
 
             cv::Rect roi(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT);
             cv::Mat croppedFrame = resizedImg(roi);
