@@ -35,6 +35,8 @@ const int IMAGE_HEIGHT = 512;
 const int X_start = 0;
 const int Y_start = 128;
 
+std::string cameraUrl, webUiPreviewImgTopic, rawImageTopic;
+
 void signalHandler(int signum){
     std::cout << "\nInterrupt signal (" << signum <<") received. \n)";
     running = false;
@@ -201,7 +203,19 @@ int main(int argc, char **argv){
 
     ros::init(argc, argv, "publisher", ros::init_options::NoSigintHandler);
 
-    ROS_INFO("Command line arguments 1: %s, 2: %s", argv[0], argv[1]);
+    ros::NodeHandle nodeHandleParams("~");          // Private node handle
+    
+    if(nodeHandleParams.getParam("url", cameraUrl)){
+        ROS_INFO("Camera url %s", cameraUrl);
+    }
+
+    if(nodeHandleParams.getParam("previewImg", webUiPreviewImgTopic)){
+        ROS_INFO("Preview Image %s", webUiPreviewImgTopic);
+    }
+
+    if(nodeHandleParams.getParam("rawImg", rawImageTopic)){
+        ROS_INFO("Raw Image %s", rawImageTopic);
+    }
 
     // Register signal handlers
     signal(SIGINT, signalHandler); // Ctrl + C
