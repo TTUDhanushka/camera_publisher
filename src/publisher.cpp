@@ -27,6 +27,8 @@ ros::Publisher compressed_image_pub;
 int fps = 30;
 int jpeg_quality = 80;
 std::string compressed_format = "jpeg";
+int frame_height = 0;
+int frame_width = 0;
 
 
 void signalHandler(int signum){
@@ -47,6 +49,11 @@ void cameraReader(){
     }
     else{
         ROS_INFO("Camera reader started");
+
+        frame_height = cap.get(cv::CAP_PROP_FRAME_HEIGHT);
+        frame_width = cap.get(cv::CAP_PROP_FRAME_WIDTH);
+
+        ROS_INFO("Frame size; height and width %d %d", frame_height, frame_width);
     }
 
     cv::Mat frame;
@@ -103,6 +110,8 @@ void imagePublisher(){
 
     const int IMAGE_WIDTH = 1024;
     const int IMAGE_HEIGHT = 512;
+    const int X_start = 0;
+    const int Y_start = 100;
 
     ros::NodeHandle n;
 
@@ -142,6 +151,14 @@ void imagePublisher(){
 
         // Check frame read errors
         if(!frame.empty()){
+
+            // Crop the image
+            // cv::Mat croppedFrame = frame(cv::Rect(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT));
+
+            int frame_height = 0;
+            int frame_width = 0;
+
+
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
 
             camera_pub.publish(msg);
