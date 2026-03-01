@@ -168,9 +168,6 @@ void imagePublisher(){
             // Resize and crop the image
             cv::Mat resizedImg;
 
-            if (scaleFactor == 0){
-                continue;
-            }
 // int(resizedWidth), int(resizedHeight)
             cv::resize(frame, resizedImg, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
 
