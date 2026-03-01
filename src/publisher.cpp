@@ -113,7 +113,7 @@ void cameraReader(){
 */
 void imagePublisher(){
 
-    double scaleFactor = frame_width / IMAGE_WIDTH;
+    // double scaleFactor = frame_width / IMAGE_WIDTH;
 
     ros::NodeHandle n;
 
@@ -156,7 +156,7 @@ void imagePublisher(){
 
             // Resize and crop the image
             cv::Mat resizedImg;
-            cv::resize(frame, resizedImg, scaleFactor, scaleFactor);
+            cv::resize(frame, resizedImg, cv::Size(IMAGE_WIDTH, IMAGE_HEIGHT));
             cv::Mat croppedFrame = resizedImg(cv::Rect(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT));
 
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", croppedFrame).toImageMsg();
