@@ -172,12 +172,12 @@ void imagePublisher(){
                 continue;
             }
 // int(resizedWidth), int(resizedHeight)
-            cv::resize(frame, resizedImg, cv::Size(), , , cv::INTER_LINEAR);
+            cv::resize(frame, resizedImg, cv::Size(), scaleFactor, scaleFactor, cv::INTER_LINEAR);
 
             cv::Rect roi(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT);
             cv::Mat croppedFrame = resizedImg(roi);
 
-            sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", resizedImg).toImageMsg();
+            sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", croppedFrame).toImageMsg();
 
             camera_pub.publish(msg);
 
