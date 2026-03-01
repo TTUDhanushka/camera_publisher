@@ -138,7 +138,7 @@ void imagePublisher(){
     while(running){
 
         if ((frame_height > 0) && (frame_width > 0)){
-            scaleFactor =  double(IMAGE_WIDTH) / double(frame_width);
+            scaleFactor =  double(IMAGE_WIDTH / frame_width);
 
             resizedHeight = (frame_height * scaleFactor);
             resizedWidth = (frame_width * scaleFactor);
@@ -169,7 +169,7 @@ void imagePublisher(){
             cv::Mat resizedImg;
 
             ROS_INFO("Original image size height: %d width: %d Image width %d", frame_height,  frame_width, IMAGE_WIDTH);
-            ROS_INFO("Resized image size height: %d width: %d scale %f", resizedHeight,  resizedWidth, scaleFactor);
+            ROS_INFO("Resized image size height: %d width: %d scale %f", int(resizedHeight),  int(resizedWidth), scaleFactor);
 
             cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight)));
 
