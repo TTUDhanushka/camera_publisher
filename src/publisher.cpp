@@ -113,8 +113,7 @@ void cameraReader(){
 void imagePublisher(){
 
     double scaleFactor = 0;
-
-
+    double resizedHeight = 0, resizedWidth = 0;
 
     ros::NodeHandle n;
 
@@ -140,6 +139,9 @@ void imagePublisher(){
 
         if ((frame_height > 0) && (frame_width > 0)){
             scaleFactor = frame_width / IMAGE_WIDTH;
+
+            resizedHeight = frame_height / scaleFactor;
+            resizedWidth = frame_width / scaleFactor;
         }
         else{
             // Wait until camera captures a valid frame and update frame parameters.
@@ -167,10 +169,10 @@ void imagePublisher(){
             cv::Mat resizedImg;
 
             if (scaleFactor == 0){
-                return;
+                continue;
             }
 
-            cv::resize(frame, resizedImg, cv::Size(int(frame_width / scaleFactor), int(frame_height / scaleFactor)));
+            cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight)));
 
             cv::Rect roi(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT);
             cv::Mat croppedFrame = resizedImg(roi);
