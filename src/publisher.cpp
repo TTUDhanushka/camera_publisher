@@ -155,8 +155,8 @@ void imagePublisher(){
         if(!frame.empty()){
 
             // Resize and crop the image
-            // cv::Mat resizedImg;
-            // cv::resize(frame, resizedImg, cv::Size(IMAGE_WIDTH, IMAGE_HEIGHT));
+            cv::Mat resizedImg;
+            cv::resize(frame, resizedImg, cv::Size(IMAGE_WIDTH, IMAGE_HEIGHT));
             // cv::Mat croppedFrame = resizedImg(cv::Rect(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT));
 
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
