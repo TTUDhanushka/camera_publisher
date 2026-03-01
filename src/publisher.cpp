@@ -205,9 +205,10 @@ int main(int argc, char **argv){
     ros::init(argc, argv, "publisher", ros::init_options::NoSigintHandler);
 
     ros::NodeHandle nodeHandleParams("~");          // Private node handle
+
     
     if(nodeHandleParams.getParam("url", cameraUrl)){
-        ROS_INFO("Camera url %s", cameraUrl.c_str());
+        ROS_INFO("Camera url %s and Node name ", cameraUrl.c_str(), ros::this_node::getName().c_str());
     }
 
     if(nodeHandleParams.getParam("previewImg", webUiPreviewImgTopic)){
