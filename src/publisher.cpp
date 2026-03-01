@@ -170,10 +170,12 @@ void imagePublisher(){
 
             cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight)));
 
+            ROS_INFO("Resized image size height: %d width: %d", resizedHeight,  resizedWidth);
+
             cv::Rect roi(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT);
             cv::Mat croppedFrame = resizedImg(roi);
 
-            sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", resizedImg).toImageMsg();
+            sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
 
             camera_pub.publish(msg);
 
