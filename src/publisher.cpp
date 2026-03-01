@@ -138,10 +138,10 @@ void imagePublisher(){
     while(running){
 
         if ((frame_height > 0) && (frame_width > 0)){
-            scaleFactor = frame_width / IMAGE_WIDTH;
+            scaleFactor =  IMAGE_WIDTH / frame_width;
 
-            resizedHeight = frame_height / scaleFactor;
-            resizedWidth = frame_width / scaleFactor;
+            // resizedHeight = frame_height / scaleFactor;
+            // resizedWidth = frame_width / scaleFactor;
         }
         else{
             // Wait until camera captures a valid frame and update frame parameters.
@@ -171,8 +171,8 @@ void imagePublisher(){
             if (scaleFactor == 0){
                 continue;
             }
-
-            cv::resize(frame, resizedImg, cv::Size(int(resizedWidth), int(resizedHeight)));
+// int(resizedWidth), int(resizedHeight)
+            cv::resize(frame, resizedImg, cv::Size(), , , cv::INTER_LINEAR);
 
             cv::Rect roi(X_start, Y_start, IMAGE_WIDTH, IMAGE_HEIGHT);
             cv::Mat croppedFrame = resizedImg(roi);
