@@ -58,7 +58,6 @@ void cameraReader(){
         frame_height = cap.get(cv::CAP_PROP_FRAME_HEIGHT);
         frame_width = cap.get(cv::CAP_PROP_FRAME_WIDTH);
 
-        ROS_INFO("Frame height: %d px and width: %d px", frame_height, frame_width);
     }
 
     cv::Mat frame;
@@ -113,7 +112,13 @@ void cameraReader(){
 */
 void imagePublisher(){
 
-    double scaleFactor = frame_width / IMAGE_WIDTH;
+    if ((frame_height > 0) && (frame_width>0)){
+        double scaleFactor = frame_width / IMAGE_WIDTH;
+    }
+    else{
+        // Wait until camera captures a valid frame and update frame parameters.
+        return;
+    }
 
     ros::NodeHandle n;
 
